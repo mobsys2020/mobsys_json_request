@@ -59,7 +59,7 @@ public class MedplanActivity extends AppCompatActivity {
 
     public void update_medplan(View v){
         SharedPreferences pref = getSharedPreferences("user_key", MODE_PRIVATE);
-        String url = "http://192.168.0.5/request.json";
+        String url = "https://mobsysbackend.herokuapp.com/request.json";
         //String url = "http://192.168.0.5/request/2.json";
         RequestQueue queue = Volley.newRequestQueue(this);
 

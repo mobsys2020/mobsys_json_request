@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor ed = pref.edit();
         if (pref.getString("user_key",null) == null){
             StringBuilder sb = new StringBuilder();
-            Random rd = new Random(12345);
+            Random rd = new Random();
             for(int it = 0; it<20; it++){
                 sb.append(ALPHA_NUMERIC_STRING.charAt((int)(rd.nextFloat()*ALPHA_NUMERIC_STRING.length())));
             }
