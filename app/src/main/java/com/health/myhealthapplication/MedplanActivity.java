@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.health.myhealthapplication.adapter.MedsAdapter;
 import com.health.myhealthapplication.models.MedPlan;
 import com.health.myhealthapplication.models.Meds;
 
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -32,7 +34,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MedplanActivity extends AppCompatActivity {
@@ -58,7 +62,7 @@ public class MedplanActivity extends AppCompatActivity {
         String url = "http://192.168.0.5/request.json";
         //String url = "http://192.168.0.5/request/2.json";
         RequestQueue queue = Volley.newRequestQueue(this);
-        
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("uat", pref.getString("user_key","missing"));
         JSONObject parameters = new JSONObject(params);
@@ -68,24 +72,28 @@ public class MedplanActivity extends AppCompatActivity {
                 new Response.Listener() {
                     @Override
                     public void onResponse(Object response) {
-                        TextView tv = findViewById(R.id.textViewtest);
                         TextView tvarzt = findViewById(R.id.textViewArzt);
                         TextView tvpatient = findViewById(R.id.textViewPatient);
                         JSONObject json = (JSONObject) response;
                         Gson g = new Gson();
                         MedPlan medplan = g.fromJson(json.toString(),MedPlan.class);
-                        tv.setText(medplan.meds.size()+" -blyat- "+medplan.medcount + " - "+medplan.doctor);
                         tvarzt.setText("Austellender Arzt: " + medplan.doctor);
                         tvpatient.setText("Ausgestellt für: " + medplan.patient);
+
+                        ListView lv = findViewById(R.id._lv);
+                        ArrayList<Meds> medlist = medplan.meds;
+                        MedsAdapter adapter = new MedsAdapter(getApplicationContext(),medlist,20);
+                        lv.setAdapter(adapter);
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        TextView tv = findViewById(R.id.textViewtest);
+                        //TextView tv = findViewById(R.id.textViewtest);
 
-                        tv.setText(error.networkResponse.data.toString());
+                        //tv.setText(error.networkResponse.data.toString());
 
                     }
                 }

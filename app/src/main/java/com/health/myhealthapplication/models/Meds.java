@@ -1,8 +1,8 @@
 package com.health.myhealthapplication.models;
 
 public class Meds {
-    String name = "";
-    String quantity = "";
-    String time = "";
-    String days = "";
+    public String name = "";
+    public String quantity = "";
+    public String time = "";
+    public String days = "";
 }
